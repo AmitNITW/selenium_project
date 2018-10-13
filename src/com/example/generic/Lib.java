@@ -18,7 +18,7 @@ public class Lib implements IAutoConstant {
 	public static String getCellValue(String sheetName, int rowNo, int cellNo) {
 		String cellValue = "";
 		try {
-			WorkbookFactory.create(new FileInputStream(EXCEL_PATH)).getSheet(sheetName).getRow(rowNo).getCell(cellNo).toString();
+			cellValue = WorkbookFactory.create(new FileInputStream(EXCEL_PATH)).getSheet(sheetName).getRow(rowNo).getCell(cellNo).toString();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
@@ -38,16 +38,15 @@ public class Lib implements IAutoConstant {
 	public static int getRowCount(String sheetName) {
 		int rowCount = 0;
 		try {
-			WorkbookFactory.create(new FileInputStream(EXCEL_PATH)).getSheet(sheetName).getLastRowNum();
+			rowCount = WorkbookFactory.create(new FileInputStream(EXCEL_PATH)).getSheet(sheetName).getLastRowNum();
 		} catch (EncryptedDocumentException | InvalidFormatException | IOException e) {
 			e.printStackTrace();
 		}
-		
 		return rowCount;
 	}
 	
 	public static void captureScreenshot(WebDriver driver, String methodName) {
-		String currentDate = new Date().toString().replaceAll(":", "_");
+		String currentDate = new Date().toString().replaceAll(":", "_").replaceAll(" ", "_");
 		TakesScreenshot ts = (TakesScreenshot) driver;
 		File srcFile = ts.getScreenshotAs(OutputType.FILE);
 		File destFile = new File(SCREENSHOT_PATH + methodName + "__" + currentDate + ".png");

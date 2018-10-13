@@ -19,6 +19,9 @@ public class LoginPage {
 	@FindBy(xpath="//div[text() = 'Login ']")
 	WebElement login;
 	
+	@FindBy(id="ServerSideErrorMessage")
+	WebElement error;
+	
 	public void setUsername(String username) {
 		user.sendKeys(username);
 	}
@@ -29,5 +32,13 @@ public class LoginPage {
 	
 	public void login() {
 		login.click();
+	}
+	
+	public String getErrorMsg() {
+		return error.getText();
+	}
+
+	public String getErrorColor() {
+		return error.getCssValue("color");
 	}
 }

@@ -10,5 +10,5 @@ public interface IAutoConstant {
 	final String EXCEL_PATH = "./datafiles/details.xlsx";
 	final String CONFIG_PATH = "./config.properties";
 	
-	String SCREENSHOT_PATH = ".screenshots/";
+	String SCREENSHOT_PATH = "./screenshots/";
 }

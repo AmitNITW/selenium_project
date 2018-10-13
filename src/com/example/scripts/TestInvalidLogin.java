@@ -1,7 +1,6 @@
 package com.example.scripts;
 
-import org.openqa.selenium.support.ui.ExpectedConditions;
-import org.openqa.selenium.support.ui.WebDriverWait;
+import org.testng.Reporter;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 
@@ -13,18 +12,21 @@ public class TestInvalidLogin extends BaseClass {
 	@Test
 	public void testInvalidLogin() {
 		LoginPage lp = new LoginPage(driver);
-		for (int i = 0; i < Lib.getRowCount("Invalid"); i++) {
-			lp.setUsername(Lib.getCellValue("Valid", 1, 0));
-			lp.setPasswword(Lib.getCellValue("Valid", 1, 1));
+		int rows = Lib.getRowCount("Invalid");
+		for (int i = 1; i <= rows; i++) {
+			lp.setUsername(Lib.getCellValue("Invalid", i, 0));
+			lp.setPasswword(Lib.getCellValue("Invalid", i, 1));
 			lp.login();
-			
-			WebDriverWait   wait = new WebDriverWait(driver, 10);
-			wait.until(ExpectedConditions.titleIs("actiTIME - Enter Time-Track"));
-			
-			String actHomePageTitle= driver.getTitle();
+			try {
+				Thread.sleep(1000);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
 			SoftAssert sa = new SoftAssert();
-			sa.assertEquals(actHomePageTitle, "actiTIME - Enter Time-Track");
+			sa.assertEquals("Username or Password is invalid. Please try again.", lp.getErrorMsg());
+			sa.assertEquals("rgba(0, 0, 0, 1)", lp.getErrorColor());
 			sa.assertAll();
 		}
+		Reporter.log("Hi Amit !!!");
 	}
 }

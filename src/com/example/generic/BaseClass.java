@@ -1,8 +1,6 @@
 package com.example.generic;
 
-import java.util.Date;
 import java.util.concurrent.TimeUnit;
-
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.chrome.ChromeOptions;
@@ -11,6 +9,7 @@ import org.openqa.selenium.firefox.FirefoxOptions;
 import org.testng.ITestResult;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.Parameters;
 
 public class BaseClass implements IAutoConstant {
 	public WebDriver driver = null;
@@ -18,7 +17,8 @@ public class BaseClass implements IAutoConstant {
 		System.setProperty(CHROME_DRIVER, CHROME_DRIVER_PATH);
 		System.setProperty(FIREFOX_DRIVER, FIREFOX_DRIVER_PATH);
 	}
-
+	
+	@Parameters("browser")
 	@BeforeMethod
 	public void launchBrowser(String browser) {
 		String url = Lib.getProperty("URL");
@@ -39,8 +39,7 @@ public class BaseClass implements IAutoConstant {
 	@AfterMethod
 	public void closeBroswer(ITestResult res) {
 		if (ITestResult.FAILURE == res.getStatus()) {
-			Date date = new Date();
-			String image = res.getName();
+			Lib.captureScreenshot(driver, res.getName());
 		}
 		driver.close();
 	}
